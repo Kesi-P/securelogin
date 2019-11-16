@@ -4,7 +4,14 @@ include_once('header.php');
 
 <section class="parent">
   <div class="child">
-
+    <?php
+      if (func::checkingLoginState($dbh)) {
+        echo 'Welcome'.$_SESSION['username'];
+      }
+      else {
+        header("location:login.php");
+      }
+     ?>
   </div>
 
 </section>

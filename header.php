@@ -1,4 +1,4 @@
-<?php include_once("config.php"); ?>
+<?php include_once("config.php"); include_once("function.php"); ?>
 
 
 <html lang="en" dir="ltr">
@@ -7,4 +7,3 @@
     <title>securelogin</title>
   </head>
   <body>
-  

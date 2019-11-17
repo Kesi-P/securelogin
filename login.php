@@ -20,7 +20,7 @@
             if($row['user_id'] > 0)
             {
               func::createRecord($dbh, $row['user_username'], $row['user_id']);
-              //header("location:index.php");
+              header("location:index.php");
               // echo func::createRecord(32);
               // echo "s1tring";
             }

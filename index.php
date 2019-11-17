@@ -5,11 +5,14 @@ include_once('header.php');
 <section class="parent">
   <div class="child">
     <?php
-      if (func::checkingLoginState($dbh)) {
-        echo 'Welcome'.$_SESSION['username'];
+      if (!func::checkingLoginState($dbh)) {
+        header("location:login.php");
+        exit();
+
       }
       else {
-        header("location:login.php");
+        echo 'Welcome'.$_COOKIE['username'];
+        echo '<a href="logout.php">Logout</a>';
       }
      ?>
   </div>

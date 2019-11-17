@@ -3,12 +3,12 @@ class func
 {
   public static function checkingLoginState($dbh)
   {
-    if (!isset($_SESSION['id']) || !isset($_COOKIE['PHPSESSID'])) {
+    if (!isset($_SESSION)) {
        session_start();
        //echo "sss"; return true;
     }
     if (isset($_COOKIE['id']) && isset($_COOKIE['token']) && isset($_COOKIE['serial']))
-    {echo "sss11";
+    {
       $query = "SELECT * FROM session WHERE session_userid = :userid AND session_token = :token AND session_serial = :serial; ";
 
        $userid = $_COOKIE['userid'];
@@ -36,6 +36,10 @@ class func
              return true;
             //echo "string";
            }
+         }else
+          {
+           func::createSession($_COOKIE['username'],$_COOKIE['userid'],$_COOKIE['token'].$_COOKIE['serial']);
+           return true;
          }
 
 
@@ -68,9 +72,17 @@ class func
     setcookie('serial',$serial, time() + (86400) * 30, "/");
   }
 
+  public static function deleteCookie()
+  {
+    setcookie('user_id','', time() -1, "/");
+    setcookie('user_username','',-1, "/");
+    setcookie('token','', time() -1, "/");
+    setcookie('serial','', time() -1, "/");
+  }
+
   public static function createSession($user_username, $user_id, $token,$serial )
   {
-    if(!isset($_SESSION['id']) || !isset($_COOKIE['PHPSESSID']))
+    if(!isset($_SESSIO))
     {
       session_start();
     }
@@ -80,19 +92,10 @@ class func
     setcookie('serial',$serial, time() + (86400) * 30, "/");
   }
 
-  public static function createString($len){
+  public static function createString($len)
+  {
     $string ="jif3t7038powkLfne93bhd03dwljlnzuyLEflpemiydwrioimwr6dop4-fv";
-    $s ='';
-    $r_new='';
-    $r_old='';
-    for ($i=1; $i < $len; $i++) {
-      while($r_old == $r_new){
-        $r_new = rand(0,30);
-      }
-      $r_old = $r_new;
-      $s = $s.$string[$r_new];
-    }
-    return $s;
+    return substr(str_shuffle($string),0 ,32);
   }
 }
  ?>

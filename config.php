@@ -10,6 +10,6 @@ $stmt->execute();
 
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($rows as $row) {
-  echo $row['user_username'];
+  //echo $row['user_username'];
 }
  ?>

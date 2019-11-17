@@ -42,7 +42,45 @@ class func
        }
     }
   }
-  public static function createRecord($len){
+
+  public static function createRecord($dbh, $user_username, $user_id)
+  {
+    $query ='INSERT INTO session (session_userid, session_token, session_serial, session_date) VALUES (:user_id,:token,:serial,"17/11/2019") ';
+
+    $dbh->prepare('DELETE FROM session WHERE session_userid= :session_userid;')->execute(array(':session_userid'=>$user_id));
+
+    $token = func::createString(32);
+    $serial = func::createString(32);
+
+    func::createCookie($user_username, $user_id, $token,$serial );
+    func::createSession($user_username, $user_id, $token,$serial );
+
+    $stmt = $dbh->prepare($query);
+    $stmt->execute(array(':user_id'=>$user_id, ':token'=>$token, ':serial'=>$serial));
+    echo "pass";
+  }
+
+  public static function createCookie($user_username, $user_id, $token,$serial )
+  {
+    setcookie('user_id',$user_id, time() + (86400) * 30, "/");
+    setcookie('user_username',$user_username, time() + (86400) * 30, "/");
+    setcookie('token',$token, time() + (86400) * 30, "/");
+    setcookie('serial',$serial, time() + (86400) * 30, "/");
+  }
+
+  public static function createSession($user_username, $user_id, $token,$serial )
+  {
+    if(!isset($_SESSION['id']) || !isset($_COOKIE['PHPSESSID']))
+    {
+      session_start();
+    }
+    $_SESSION['user_username'] = $user_username;
+    setcookie('user_id',$user_id, time() + (86400) * 30, "/");
+    setcookie('token',$token, time() + (86400) * 30, "/");
+    setcookie('serial',$serial, time() + (86400) * 30, "/");
+  }
+
+  public static function createString($len){
     $string ="jif3t7038powkLfne93bhd03dwljlnzuyLEflpemiydwrioimwr6dop4-fv";
     $s ='';
     $r_new='';

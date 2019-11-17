@@ -19,10 +19,10 @@
             //echo $stmt;
             if($row['user_id'] > 0)
             {
-              // func::createRecord($row['user_id'],$row['user_username'])
-              // header("location:index.php");
-              echo func::createRecord(32);
-              echo "s1tring";
+              func::createRecord($dbh, $row['user_username'], $row['user_id']);
+              //header("location:index.php");
+              // echo func::createRecord(32);
+              // echo "s1tring";
             }
         }
         else {
